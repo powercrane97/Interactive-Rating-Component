@@ -23,6 +23,7 @@ function App() {
   }, [rating]);
 
   function handleSubmit(e) {
+    if (rating == null) return;
     e.preventDefault();
     setSubmit(submit => !submit);
   }
