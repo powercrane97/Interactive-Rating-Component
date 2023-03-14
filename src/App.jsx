@@ -23,7 +23,7 @@ function App() {
   }, [rating]);
 
   function handleSubmit(e) {
-    if (rating == null) return;
+    // if (rating == null) return;
     e.preventDefault();
     setSubmit(submit => !submit);
   }
@@ -77,7 +77,10 @@ function App() {
             <button
               type='submit'
               className='btn--submit'
-              onClick={handleSubmit}>
+              onClick={handleSubmit}
+              style={
+                rating ? { pointerEvents: "auto" } : { pointerEvents: "none" }
+              }>
               Submit
             </button>
           </form>
