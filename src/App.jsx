@@ -1,35 +1,25 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import "./App.css";
 import RatingButton from "./RatingButton";
 import ThankYou from "./ThankYou";
+
+const ratings = [1, 2, 3, 4, 5];
 
 function App() {
   const [submit, setSubmit] = useState(false);
   const [rating, setRating] = useState(null);
 
-  useEffect(() => {
-    if (!rating) return;
-    document
-      .querySelectorAll(`button[value]`)
-      .forEach(button => button.classList.remove("btn--chosen"));
-    document
-      .querySelector(`button[value="${rating}"]`)
-      .classList.add("btn--chosen");
-
-    return () =>
-      document
-        .querySelectorAll(`button[value]`)
-        .forEach(button => button.classList.remove("btn--chosen"));
-  }, [rating]);
+  const chosen = "btn--chosen";
 
   function handleSubmit(e) {
-    // if (rating == null) return;
     e.preventDefault();
     setSubmit(submit => !submit);
   }
+
   function handleRating(e) {
-    setRating(e.target.value);
-    // e.target.classList.add('btn--register');
+    if (rating === Number(e.target.value)) {
+      setRating(null);
+    } else setRating(Number(e.target.value));
   }
 
   return (
@@ -48,38 +38,24 @@ function App() {
           </p>
           <form action=''>
             <ol>
-              <li className='li-button'>
-                <RatingButton value={1} onClick={handleRating}>
-                  1
-                </RatingButton>
-              </li>
-              <li className='li-button'>
-                <RatingButton value={2} onClick={handleRating}>
-                  2
-                </RatingButton>
-              </li>
-              <li className='li-button'>
-                <RatingButton value={3} onClick={handleRating}>
-                  3
-                </RatingButton>
-              </li>
-              <li className='li-button'>
-                <RatingButton value={4} onClick={handleRating}>
-                  4
-                </RatingButton>
-              </li>
-              <li className='li-button'>
-                <RatingButton value={5} onClick={handleRating}>
-                  5
-                </RatingButton>
-              </li>
+              {ratings.map(rat => (
+                <li className='li-button' key={rat}>
+                  <RatingButton
+                    value={rat}
+                    onClick={handleRating}
+                    rating={rating}
+                  />
+                </li>
+              ))}
             </ol>
             <button
               type='submit'
               className='btn--submit'
               onClick={handleSubmit}
               style={
-                rating ? { pointerEvents: "auto" } : { pointerEvents: "none" }
+                rating
+                  ? { pointerEvents: "auto", cursor: "pointer" }
+                  : { pointerEvents: "none" }
               }>
               Submit
             </button>
