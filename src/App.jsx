@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, Suspense } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import RatingButton from "./RatingButton";
 import ThankYou from "./ThankYou";
